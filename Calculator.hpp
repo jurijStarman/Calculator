@@ -1,13 +1,10 @@
-//incluudes
+//includes
 #include <algorithm>
+#include <map>
+#include <stack>
 #include <string>
 #include <vector>
 
-struct Expression
-{
-    std::vector<double> numbers;
-    std::vector<char> operators;
-};
 
 enum class Operators : char
 {
@@ -15,7 +12,26 @@ enum class Operators : char
     MINUS = '-',
     TIMES = '*',
     DIVIDED_BY = '/',
-    Last
+};
+
+enum class Numbers : char
+{
+    ZERO = '0',
+    ONE = '1',
+    TWO = '2',
+    THREE = '3',
+    FOUR = '4',
+    FIVE = '5',
+    SIX = '6',
+    SEVEN = '7',
+    EIGHT = '8',
+    NINE = '9'
+};
+
+enum class Parenthesis : char
+{
+    OPEN = '(',
+    CLOSE = ')'
 };
 
 
@@ -27,22 +43,34 @@ class Calculator
         ~Calculator() = default;
 
         std::string getResult();
-        void setInput(const std::string& input);
+        void setInput(const std::string input);
 
     private:
-        std::string setOrder(std::string input);
-        double getNumber(std::string substring);
-        void getOperator(std::string substring);
+        std::map<unsigned int, std::pair<unsigned int,unsigned int>> setOrder(std::string input);
+        double getNumbers(std::string substring);
+        void getOperators(std::string substring);
         void parse();
         void calculate();
 
         
 
     //members
-        std::vector<Expression> calculations;
         std::string input;
         std::string result;
 
-        const std::vector<char> operators = {'+','-','*','/'};
-        const std::vector<int> numbers = {'1','2','3','4','5','6','7','8','9','0'};
+        const std::vector<Operators> operators = {Operators::PLUS,
+                                                  Operators::MINUS,
+                                                  Operators::TIMES,
+                                                  Operators::DIVIDED_BY};
+
+        const std::vector<Numbers> numbers = {Numbers::ZERO,
+                                              Numbers::ONE,
+                                              Numbers::TWO,
+                                              Numbers::THREE,
+                                              Numbers::FOUR,
+                                              Numbers::FIVE,
+                                              Numbers::SIX,
+                                              Numbers::SEVEN,
+                                              Numbers::EIGHT,
+                                              Numbers::NINE};
 };

@@ -2,83 +2,88 @@
 
 Calculator::Calculator(){}
 
-std::string Calculator::getResult(){return result;}
+std::string Calculator::getResult(){
 
-void Calculator::setInput(const std::string& input){this->input = input;}
+    return result;
+}
 
-
-
-std::string Calculator::setOrder(std::string parsedInput){
-
-    std::size_t closingP = parsedInput.find_first_of(')');
+void Calculator::setInput(const std::string input){
     
-    if(closingP != std::string::npos){
-        std::size_t openingP = parsedInput.find_last_of('(', closingP);
-        return parsedInput.substr(openingP, closingP);
-    }
-    else{//no parenthesis
-        return parsedInput;
-    }
+    this->input = input;
 }
 
-//numbers are between operators
-double Calculator::getNumber(std::string substring){
-    bool isNegative = false;
 
-    auto toggle = [](bool toToggle){toToggle = !toToggle;};
-    auto getOperators = [this](){ std::string toReturn;
-                             for(auto c : this->operators){toReturn.push_back(c);} 
-                             return toReturn;};
+///
+//The function takes an input string and returns a vector which contains
+//the location of the parenthesis and the level(order) in which the expression
+//inbetween the parenthesis should be solved.
+//
+//
+//How to define on which level an expression lies?
+//
+//Levels are defined by how many parenthesis are inside a 
+//pair of parenthesis.
+//
+//Solution ideas:
+//
+//the locations of the parenthesis are stored
+//in a vector where  a -loc represents a closing p and a loc 
+//represents an opening p.
+//
+//how to pair the right ones together?
+//How to level them?
+//the number of positive numbers before a negative
+//corresponds to their level.
+///
 
-    std::string operatorsString = getOperators();
 
-    std::size_t currentOp = substring.find_first_of(operatorsString);
-    std::size_t previousOp = 0;
+//this wont work on (5-4)+(5*5-4/(5+7*(457-8)))
+//                  [0 -4 6      13   18  -24 -25 -26]
+std::map<unsigned int, std::pair<unsigned int,unsigned int>> Calculator::setOrder(std::string parsedInput){ 
+    
+    std::map<unsigned int, std::pair<unsigned int,unsigned int>> leveledExpressions;
+    std::stack<unsigned int> stack;
+    
+    //check for parenthesis
+    std::size_t firstP = parsedInput.find_first_of(static_cast<char>(Parenthesis::OPEN));
 
-    //TODO preveri od kje dela .substr()
-    if(currentOp == 0){
-        toggle(isNegative);
-        previousOp = currentOp+1;
-        currentOp = substring.find_first_of(operatorsString, previousOp);
+    if(firstP == std::string::npos){
+        return leveledExpressions;
     }
 
-    while(currentOp != std::string::npos){   
-        if(substring[currentOp] == '-'){
-            //if the character to the left of the '-' is a number that means the '-' is an operator.
-            if(std::find(this->numbers.begin(),this->numbers.end(),substring[currentOp-1]) != this->numbers.end()){
-                
-                double number = std::stod(substring.substr(previousOp,currentOp));
-                
-                return (isNegative) ? ((-1)*number) : number;
-            }
-            else{
-                toggle(isNegative);
-            }
-            previousOp = currentOp;
-            currentOp = substring.find_first_of(operatorsString, previousOp);
+    for(unsigned int i = 0; i < parsedInput.length(); ++i){
+        if(parsedInput[i] == static_cast<char>(Parenthesis::OPEN)){
+            stack.push(i);
         }
-    }
+        else if(parsedInput[i] == static_cast<char>(Parenthesis::CLOSE)){
+            
+            unsigned int key = stack.size();
+            std::pair<unsigned int,unsigned int> parenthesis = std::make_pair(stack.top(),i);
+            leveledExpressions.emplace(key, parenthesis);
+            
+            stack.pop();
+        }
 
-    //if there is no operator
-    return std::stod(substring);
+    }
 }
 
-void Calculator::getOperator(std::string substring){
+///
+//The function returns the first number
+///
+double Calculator::getNumbers(std::string substring){
+
+}
+
+void Calculator::getOperators(std::string substring){
 
 }
 
 
 void Calculator::parse(){
-    Expression expression;
 
-    std::string parsedInput = this->input;
-    std::string toEvaluate;
-
-    toEvaluate = setOrder(parsedInput);
-    getNumber(toEvaluate);
-    getOperator(toEvaluate);
-
-    //this->calculations.emplace_back(setOrder(parsedInput));
+    std::string input = this->input;
+    
+    std::map<unsigned int, std::pair<unsigned int,unsigned int>> inputOrder = setOrder(input);
 
 
     
