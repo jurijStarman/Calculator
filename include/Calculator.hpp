@@ -44,9 +44,6 @@ struct Expression
     std::vector<Operators> operators;
 };
 
-///
-//Find better name for struct
-///
 struct Location
 {
     Location(unsigned int first, unsigned int second, std::string result){
@@ -64,6 +61,7 @@ struct Location
 using locationMultimap = std::multimap<unsigned int, std::pair<unsigned int,unsigned int>>; 
 using lMMIter = locationMultimap::iterator;
 
+
 class Calculator
 {
     //methods
@@ -73,6 +71,7 @@ class Calculator
 
         std::string getResult();
         void setInput(const std::string input);
+        void parse();
 
     private:
         locationMultimap setOrder(std::string input);
@@ -84,7 +83,6 @@ class Calculator
         std::string replaceSubstrings(std::vector<Location>& resultVector);
         unsigned int getMaxKey(locationMultimap& inputOrder);
         void solve(std::string input, unsigned int first, unsigned int second, std::vector<Location>& resultVector);
-        void parse();
 
         
 
