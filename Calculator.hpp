@@ -1,8 +1,10 @@
 //includes
 #include <algorithm>
 #include <map>
+#include <mutex>
 #include <stack>
 #include <string>
+#include <thread>
 #include <vector>
 
 
@@ -25,7 +27,8 @@ enum class Numbers : char
     SIX = '6',
     SEVEN = '7',
     EIGHT = '8',
-    NINE = '9'
+    NINE = '9',
+    DOT = '.'
 };
 
 enum class Parenthesis : char
@@ -34,6 +37,32 @@ enum class Parenthesis : char
     CLOSE = ')'
 };
 
+
+struct Expression
+{
+    std::vector<double> numbers;
+    std::vector<Operators> operators;
+};
+
+///
+//Find better name for struct
+///
+struct Location
+{
+    Location(unsigned int first, unsigned int second, std::string result){
+             this->first = first;
+             this->second = second;
+             this->result = result;}
+    
+    ~Location() = default;
+
+    unsigned int first;
+    unsigned int second;
+    std::string result;
+};
+
+using locationMultimap = std::multimap<unsigned int, std::pair<unsigned int,unsigned int>>; 
+using lMMIter = locationMultimap::iterator;
 
 class Calculator
 {
@@ -46,11 +75,16 @@ class Calculator
         void setInput(const std::string input);
 
     private:
-        std::map<unsigned int, std::pair<unsigned int,unsigned int>> setOrder(std::string input);
-        double getNumbers(std::string substring);
-        void getOperators(std::string substring);
+        locationMultimap setOrder(std::string input);
+        bool isNumber(char toCompare);
+        Operators charToOperator(char c);
+        bool minusIsOperator(const std::string substring, const std::size_t pos);
+        Expression getExpression(const std::string substring);
+        std::string calculate(Expression expression);
+        std::string replaceSubstrings(std::vector<Location>& resultVector);
+        unsigned int getMaxKey(locationMultimap& inputOrder);
+        void solve(std::string input, unsigned int first, unsigned int second, std::vector<Location>& resultVector);
         void parse();
-        void calculate();
 
         
 
@@ -72,5 +106,6 @@ class Calculator
                                               Numbers::SIX,
                                               Numbers::SEVEN,
                                               Numbers::EIGHT,
-                                              Numbers::NINE};
+                                              Numbers::NINE,
+                                              Numbers::DOT};
 };
