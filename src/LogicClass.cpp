@@ -1,4 +1,4 @@
-#include "../include/Logic.hpp"
+#include "../include/LogicClass.hpp"
 
 ///
 //Description:
@@ -8,24 +8,24 @@
 //  it should be solved.
 //  If the input string does not contain parenthesis, it returns an empty map.
 /// 
-locationMultimap Logic::setOrder(std::string parsedInput){ 
+locationMultimapType LogicClass::setOrder(std::string parsedInput){ 
     
-    locationMultimap leveledExpressions;
+    locationMultimapType leveledExpressions;
     std::stack<unsigned int> stack;
 
 
     //check for parenthesis
-    std::size_t firstP = parsedInput.find_first_of(static_cast<char>(Parenthesis::OPEN));
+    std::size_t firstP = parsedInput.find_first_of(static_cast<char>(ParenthesisEnum::OPEN));
 
     if(firstP == std::string::npos){
         return leveledExpressions;
     }
 
     for(unsigned int i = 0; i < parsedInput.length(); ++i){
-        if(parsedInput[i] == static_cast<char>(Parenthesis::OPEN)){
+        if(parsedInput[i] == static_cast<char>(ParenthesisEnum::OPEN)){
             stack.push(i);
         }
-        else if(parsedInput[i] == static_cast<char>(Parenthesis::CLOSE)){
+        else if(parsedInput[i] == static_cast<char>(ParenthesisEnum::CLOSE)){
             
             unsigned int key = stack.size(); 
 
@@ -51,9 +51,9 @@ locationMultimap Logic::setOrder(std::string parsedInput){
 //  If the character is an operator, which is not a 'minus' it does the same thing as when the
 //  'minus' is an operator. 
 ///
-Expression Logic::getExpression(const std::string substring)
+ExpressionStruct LogicClass::getExpression(const std::string substring, const std::vector<NumbersEnum> numbers)
 {
-    Expression expression;
+    ExpressionStruct expression;
     bool isNegative = false;
     std::string sNumber;
 
@@ -67,12 +67,12 @@ Expression Logic::getExpression(const std::string substring)
         
         char elem = substring[i];
 
-        if(isNumber(elem)){
+        if(this->helperFunctClass.isNumber(elem, numbers)){
             sNumber.push_back(elem);
         }
-        else if(elem == static_cast<char>(Operators::MINUS)){
-            if(minusIsOperator(substring, i)){
-                expression.operators.push_back(Operators::MINUS);               
+        else if(elem == static_cast<char>(OperatorsEnum::MINUS)){
+            if(this->helperFunctClass.minusIsOperator(substring, i, numbers)){
+                expression.operators.push_back(OperatorsEnum::MINUS);               
                 expression.numbers.push_back(getNumber(isNegative, sNumber));
                 sNumber.clear();
                 isNegative = false;
@@ -82,10 +82,54 @@ Expression Logic::getExpression(const std::string substring)
             }
         }
         else{
-            expression.operators.push_back(charToOperator(elem));
+            expression.operators.push_back(this->helperFunctClass.charToOperator(elem));
             expression.numbers.push_back(getNumber(isNegative, sNumber));
             sNumber.clear();
             isNegative = false;
         }
     }
+}
+
+///
+//Description:
+//  The function iterates through an expression operators vector and calculates
+//  the expressions along the way.
+//  Its stores the first two values of the numbers array into 'firstNum' and 'secondNum'
+//  and the first operator in 'op'. It then calculates the expression that these two numbers
+//  and operator form, saving the result into the location of the second number.
+//  It continues this operation until it reaches the end of an expression.
+///
+std::string LogicClass::calculate(ExpressionStruct expression)
+{
+    double result;
+    double firstNum;
+    double secondNum;
+    OperatorsEnum op;
+
+    for(std::size_t i = 0; i < expression.operators.size(); ++i){
+        firstNum = expression.numbers[i];
+        secondNum = expression.numbers[i+1];
+        op = expression.operators[i];
+
+        switch(op){
+        case OperatorsEnum::PLUS:
+             result = firstNum + secondNum;
+             expression.numbers[i+1] = result;
+             break;
+        case OperatorsEnum::MINUS:
+             result = firstNum - secondNum;
+             expression.numbers[i+1] = result;
+             break;
+        case OperatorsEnum::TIMES:
+             result = firstNum * secondNum;
+             expression.numbers[i+1] = result;
+             break;
+        case OperatorsEnum::DIVIDED_BY:
+             result = firstNum / secondNum;
+             expression.numbers[i+1] = result;
+             break;
+        }
+    }
+
+    return std::to_string(result);
 }

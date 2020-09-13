@@ -1,35 +1,71 @@
-#include <gtest/gtest.h>
-#include "../include/Calculator.hpp"
+#include "Calculator_test.hpp"
 
-/*
-Functions to test:
+///
+//class LogicHelperUnitTestClass function definition.
+///
 
-Simple PRIVATE functions that do not need to be tested in isolation:
--   bool isNumber(char toCompare);
--   Operators charToOperator(char c);
--   minusIsOperator(const std::string substring, const std::size_t pos);
--   replaceSubstrings(std::vector<Location>& resultVector);
--   unsigned int getMaxKey(locationMultimap& inputOrder);
+void LogicHelperUnitTestClass::testIsNumber(){}
+void LogicHelperUnitTestClass::testCharToOperator(){}
+void LogicHelperUnitTestClass::testMinusIsOperator(){}
 
-PRIVATE functions that need to be tested in isolation:
--   setOrder(std::string input);
--   getExpression(const std::string substring);
--   std::string calculate(Expression expression);
--   void solve(std::string input, unsigned int first, unsigned int second, std::vector<Location>& resultVector); 
-
-PUBLIC functions:
--   std::string getResult();
--   void setInput(const std::string input);
--   void parse();
-*/
-
-class UnitTestClass
+void LogicHelperUnitTestClass::runLogicHelperClassTests()
 {
-    public:
-        void runTests();
-};
+    testIsNumber();
+    testCharToOperator();
+    testMinusIsOperator();
+}
 
-int main(){
+///
+//class CalculatorHelperUnitTestClass function definition.
+///
 
-    return 0;
+void CalculatorHelperUnitTestClass::testReplaceSubstrings(){}
+void CalculatorHelperUnitTestClass::testGetMaxKey(){}
+
+void CalculatorHelperUnitTestClass::runCalculatorHelperClassTests()
+{
+    testReplaceSubstrings();
+    testGetMaxKey();
+}
+
+///
+//class LogicUnitTestClass function definition.
+///
+
+void LogicUnitTestClass::testSetOrder(){}
+void LogicUnitTestClass::testGetExpression(){}
+void LogicUnitTestClass::testCalculate(){}
+
+void LogicUnitTestClass::runLogicClassTests()
+{
+    testSetOrder();
+    testGetExpression();
+    testCalculate();
+}
+
+///
+//class CalculatorUnitTestClass function definition.
+///
+   
+void CalculatorUnitTestClass::testGetResult(){}
+void CalculatorUnitTestClass::testSetInput(){}
+void CalculatorUnitTestClass::testCompute(){}
+
+void CalculatorUnitTestClass::runCalculatorClassTests()
+{
+    testGetResult();
+    testSetInput();
+    testCompute();
+}
+
+///
+//class UnitTestClass function definition.
+///
+
+void UnitTestClass::runAllTests()
+{
+    this->LHUTC.runLogicHelperClassTests();
+    this->LUTC.runLogicClassTests();
+    this->CHUTC.runCalculatorHelperClassTests();
+    this->CUTC.runCalculatorClassTests();
 }
