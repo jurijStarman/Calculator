@@ -1,7 +1,8 @@
-#ifndef INC_H
-#define INC_H
+#ifndef CALCHC_H
+#define CALCHC_H
+
 #include "Include.hpp"
-#endif
+
 
 class CalculatorHelperClass
 {
@@ -13,3 +14,5 @@ class CalculatorHelperClass
         unsigned int getMaxKey(locationMultimapType& inputOrder);
 
 };
+
+#endif

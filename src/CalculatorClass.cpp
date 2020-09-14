@@ -35,10 +35,12 @@ void CalculatorClass::setInput(const std::string input){
 ///
 //TODO:
 //
+//
+//
 //Rename Location location when the struct name is changed.
 //Should implement a mutex on the vector.
 ///
-void CalculatorClass::solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct>& resultVector)
+void CalculatorClass::solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct> resultVector)
 {
     std::mutex mtx;
 
@@ -62,11 +64,6 @@ void CalculatorClass::solve(std::string input, unsigned int first, unsigned int 
 //
 //add explanation
 //
-//Create a mutex for the following data structures.
-//  recourses shared by threads:
-//  -   input, 
-//  -   resultVector!!!
-//  -   
 ///
 void CalculatorClass::compute(){
 
@@ -75,8 +72,8 @@ void CalculatorClass::compute(){
 
     locationMultimapType inputOrder = this->logicFuncClass.setOrder(input);
     unsigned int currentKey = this->helperFunctClass.getMaxKey(inputOrder);
-    unsigned int first;
-    unsigned int second;
+    unsigned int first = 0;
+    unsigned int second = 0;
     std::vector<std::thread> threadVector;
 
     ExpressionStruct expression;
@@ -92,7 +89,7 @@ void CalculatorClass::compute(){
             first = iter->second.first;
             second = iter->second.second;
 
-            threadVector.emplace_back(solve, input, first, second, resultVector);
+            threadVector.emplace_back(&CalculatorClass::solve, this, input, first, second, resultVector);
         }
         //3.wait for threads to finish
         for(auto& elem : threadVector){

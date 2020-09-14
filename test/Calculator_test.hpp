@@ -1,14 +1,12 @@
 ///
 //Includes
 ///
+#ifndef CALCT_H
+#define CALCT_H
 #include <gtest/gtest.h>
-
-#ifndef INC_H
-#define INC_H
 #include "../include/Include.hpp"
-#endif
-
 #include "../include/CalculatorClass.hpp"
+
 
 
 ///
@@ -92,3 +90,4 @@ class UnitTestClass
         
 };
 
+#endif

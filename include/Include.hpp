@@ -1,3 +1,6 @@
+#ifndef INC_H
+#define INC_H
+
 ///
 //Includes from the standard library
 ///
@@ -73,3 +76,5 @@ struct LocationStruct
 ///
 using locationMultimapType = std::multimap<unsigned int, std::pair<unsigned int,unsigned int>>; 
 using lMMIterType = locationMultimapType::iterator;
+
+#endif

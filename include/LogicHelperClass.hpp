@@ -1,8 +1,7 @@
-#ifndef INC_H
-#define INC_H
-#include "Include.hpp"
-#endif
+#ifndef LOGHC_H
+#define LOGHC_H
 
+#include "Include.hpp"
 
 ///
 //TODO
@@ -18,3 +17,5 @@ class LogicHelperClass
         OperatorsEnum charToOperator(char c);
         bool minusIsOperator(const std::string substring, const std::size_t pos, const std::vector<NumbersEnum> numbers);
 };
+
+#endif

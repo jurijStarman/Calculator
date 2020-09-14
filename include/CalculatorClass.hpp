@@ -1,11 +1,9 @@
 //includes
-#ifndef INC_H
-#define INC_H
+#ifndef CALCC_H
+#define CALCC_H
+
 #include "Include.hpp"
-#endif
-
 #include "LogicClass.hpp"
-
 #include "CalculatorHelperClass.hpp"
 
 class CalculatorClass
@@ -20,7 +18,7 @@ class CalculatorClass
         void compute();
 
     private:
-        void solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct>& resultVector);
+        void solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct> resultVector);
 
         LogicClass logicFuncClass;
         CalculatorHelperClass helperFunctClass;
@@ -47,3 +45,5 @@ class CalculatorClass
                                                   NumbersEnum::NINE,
                                                   NumbersEnum::DOT};
 };
+
+#endif

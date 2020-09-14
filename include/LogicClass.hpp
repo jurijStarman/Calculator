@@ -1,8 +1,7 @@
-#ifndef INC_H
-#define INC_H
-#include "Include.hpp"
-#endif
+#ifndef LOGC_H
+#define LOGC_H
 
+#include "Include.hpp"
 #include "LogicHelperClass.hpp"
 
 
@@ -19,3 +18,5 @@ class LogicClass
     private:
         LogicHelperClass helperFunctClass;
 };
+
+#endif
