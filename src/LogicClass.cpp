@@ -57,18 +57,21 @@ ExpressionStruct LogicClass::getExpression(const std::string substring, const st
     bool isNegative = false;
     std::string sNumber;
 
-    auto toggle = [](bool isNegative){ isNegative = !isNegative;};
+    auto toggle = [](bool& isNegative){ isNegative = !isNegative;};
     auto getNumber = [](bool isNegative, std::string sNumber){
                         double dNumber;
                        (isNegative) ? (dNumber = (-1)*std::stod(sNumber)) : (dNumber = std::stod(sNumber));
                        return dNumber;};
 
-    for(std::size_t i = 0; i < substring.length(); ++i){
+    for(std::size_t i = 0; i < substring.length(); i++){
         
         char elem = substring[i];
-
+        
         if(this->helperFunctClass.isNumber(elem, numbers)){
             sNumber.push_back(elem);
+            if(i == substring.length()-1){
+                expression.numbers.push_back(getNumber(isNegative, sNumber));
+            }
         }
         else if(elem == static_cast<char>(OperatorsEnum::MINUS)){
             if(this->helperFunctClass.minusIsOperator(substring, i, numbers)){
@@ -79,7 +82,7 @@ ExpressionStruct LogicClass::getExpression(const std::string substring, const st
             }
             else{
                 toggle(isNegative);
-            }
+             }
         }
         else{
             expression.operators.push_back(this->helperFunctClass.charToOperator(elem));
@@ -88,9 +91,15 @@ ExpressionStruct LogicClass::getExpression(const std::string substring, const st
             isNegative = false;
         }
     }
+
+    return expression;
 }
 
 ///
+//TODO 
+// Implement priority calculation
+//add note in workplan that floats displays
+//
 //Description:
 //  The function iterates through an expression operators vector and calculates
 //  the expressions along the way.

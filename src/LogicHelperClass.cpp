@@ -11,9 +11,8 @@ bool LogicHelperClass::isNumber(char toCompare, const std::vector<NumbersEnum> n
         if(static_cast<char>(elem) == toCompare){
             return true;
         }
-
-        return false;
     }
+    return false;
 }
 
 ///

@@ -54,6 +54,16 @@ struct ExpressionStruct
 {
     std::vector<double> numbers;
     std::vector<OperatorsEnum> operators;
+
+    bool operator==(const ExpressionStruct& expr) const{ 
+        bool equalNum = expr.numbers == numbers;
+        bool equalOp = expr.operators == operators;
+
+        if(equalNum && equalOp){
+            return true;
+        }
+        return false;
+    }
 };
 
 struct LocationStruct

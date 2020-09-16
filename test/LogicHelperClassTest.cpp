@@ -1,10 +1,11 @@
-#include "Calculator_test.hpp"
+#ifndef LOGHCT_H
+#define LOGHCT_H
+#include <gtest/gtest.h>
+#include "../include/Include.hpp"
+#include "../include/LogicHelperClass.hpp"
 
-///
-//class LogicHelperUnitTestClass function definition.
-///
 
-void LogicHelperUnitTestClass::testIsNumber()
+TEST(LogicHelperClass, isNumber)
 {
     LogicHelperClass toTest;
 
@@ -39,7 +40,7 @@ void LogicHelperUnitTestClass::testIsNumber()
 ///
 // REWRITE TEST WHEN EXCEPTION HANDLING IS IMPLEMENTED.
 ///
-void LogicHelperUnitTestClass::testCharToOperator()
+TEST(LogicHelperClass, charToOperator)
 {
     LogicHelperClass toTest;
 
@@ -54,7 +55,7 @@ void LogicHelperUnitTestClass::testCharToOperator()
     //ADD FOR OTHER CHARS WHEN EXCEPTION HANDLING IS IMPLEMENTED.
 }
 
-void LogicHelperUnitTestClass::testMinusIsOperator()
+TEST(LogicHelperClass, minusIsOperator)
 {
     LogicHelperClass toTest;
 
@@ -85,64 +86,6 @@ void LogicHelperUnitTestClass::testMinusIsOperator()
 
 }
 
-void LogicHelperUnitTestClass::runLogicHelperClassTests()
-{
-    testIsNumber();
-    testCharToOperator();
-    testMinusIsOperator();
-}
 
-///
-//class CalculatorHelperUnitTestClass function definition.
-///
 
-void CalculatorHelperUnitTestClass::testReplaceSubstrings(){}
-void CalculatorHelperUnitTestClass::testGetMaxKey(){}
-
-void CalculatorHelperUnitTestClass::runCalculatorHelperClassTests()
-{
-    testReplaceSubstrings();
-    testGetMaxKey();
-}
-
-///
-//class LogicUnitTestClass function definition.
-///
-
-void LogicUnitTestClass::testSetOrder(){}
-void LogicUnitTestClass::testGetExpression(){}
-void LogicUnitTestClass::testCalculate(){}
-
-void LogicUnitTestClass::runLogicClassTests()
-{
-    testSetOrder();
-    testGetExpression();
-    testCalculate();
-}
-
-///
-//class CalculatorUnitTestClass function definition.
-///
-   
-void CalculatorUnitTestClass::testGetResult(){}
-void CalculatorUnitTestClass::testSetInput(){}
-void CalculatorUnitTestClass::testCompute(){}
-
-void CalculatorUnitTestClass::runCalculatorClassTests()
-{
-    testGetResult();
-    testSetInput();
-    testCompute();
-}
-
-///
-//class UnitTestClass function definition.
-///
-
-void UnitTestClass::runAllTests()
-{
-    this->LHUTC.runLogicHelperClassTests();
-    this->LUTC.runLogicClassTests();
-    this->CHUTC.runCalculatorHelperClassTests();
-    this->CUTC.runCalculatorClassTests();
-}
+#endif
