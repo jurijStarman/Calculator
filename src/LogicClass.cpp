@@ -96,30 +96,61 @@ ExpressionStruct LogicClass::getExpression(const std::string substring, const st
 }
 
 ///
-//TODO 
-// Implement priority calculation
-//add note in workplan that floats displays
-//
 //Description:
 //  The function iterates through an expression operators vector and calculates
 //  the expressions along the way.
 //  Its stores the first two values of the numbers array into 'firstNum' and 'secondNum'
 //  and the first operator in 'op'. It then calculates the expression that these two numbers
 //  and operator form, saving the result into the location of the second number.
-//  It continues this operation until it reaches the end of an expression.
+//  It does this first for the * and / operators and it then replaces the numbers that are present in
+//  the calculation with the result and removes the operator. This leaves the expression with only + and -
+//  operations which it resolves in the same manner.
 ///
+
 std::string LogicClass::calculate(ExpressionStruct expression)
 {
     double result;
     double firstNum;
     double secondNum;
     OperatorsEnum op;
+    std::vector<double>::iterator numIter;
+    std::vector<OperatorsEnum>::iterator opIter;
 
+    //Solve for *,/
+    for(std::size_t i = 0; i < expression.operators.size(); ++i){
+         firstNum = expression.numbers[i];
+         secondNum = expression.numbers[i+1];
+         op = expression.operators[i];
+    
+         switch(op){
+         case OperatorsEnum::TIMES:
+              result = firstNum * secondNum; //calculate result
+              expression.numbers[i] = result; // replace firstNum with result
+              numIter = expression.numbers.begin();// erase secondNum and operator from vector
+              opIter = expression.operators.begin();
+              expression.numbers.erase(numIter+i+1);
+              expression.operators.erase(opIter+i);
+              i--;   //bc the vector is shortened by 1 i has to move back
+              break;
+         case OperatorsEnum::DIVIDED_BY:
+              result = firstNum / secondNum;
+              expression.numbers[i] = result;
+              numIter = expression.numbers.begin();// erase secondNum and operator from vector
+              opIter = expression.operators.begin();
+              expression.numbers.erase(numIter+i+1);
+              expression.operators.erase(opIter+i);
+              i--;
+              break;
+         default:
+             break;
+        }
+    }
+    
+    //Solve for +,-
     for(std::size_t i = 0; i < expression.operators.size(); ++i){
         firstNum = expression.numbers[i];
         secondNum = expression.numbers[i+1];
         op = expression.operators[i];
-
         switch(op){
         case OperatorsEnum::PLUS:
              result = firstNum + secondNum;
@@ -129,16 +160,8 @@ std::string LogicClass::calculate(ExpressionStruct expression)
              result = firstNum - secondNum;
              expression.numbers[i+1] = result;
              break;
-        case OperatorsEnum::TIMES:
-             result = firstNum * secondNum;
-             expression.numbers[i+1] = result;
-             break;
-        case OperatorsEnum::DIVIDED_BY:
-             result = firstNum / secondNum;
-             expression.numbers[i+1] = result;
-             break;
         }
     }
-
+    
     return std::to_string(result);
 }

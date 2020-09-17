@@ -98,13 +98,19 @@ TEST(LogicClass, calculate)
     EXPECT_EQ(toTest.calculate(arg), "5.000000");
 
     arg = fillExpr({1.11,1.213,6.7,5,2,3.33},{OperatorsEnum::PLUS,OperatorsEnum::MINUS,OperatorsEnum::PLUS,OperatorsEnum::DIVIDED_BY,OperatorsEnum::TIMES});
-    EXPECT_EQ(toTest.calculate(arg), "1.037295");
+    EXPECT_EQ(toTest.calculate(arg), "3.948000");
 
     arg = fillExpr({1.1111111,1},{OperatorsEnum::PLUS});
     EXPECT_EQ(toTest.calculate(arg), "2.111111");
 
     arg = fillExpr({1.1111116,1},{OperatorsEnum::PLUS});
     EXPECT_EQ(toTest.calculate(arg), "2.111112");
+
+    arg = fillExpr({1,1,4},{OperatorsEnum::PLUS, OperatorsEnum::TIMES});
+    EXPECT_EQ(toTest.calculate(arg), "5.000000");
+
+    arg = fillExpr({1,1,4,5.55,7.0026,9},{OperatorsEnum::DIVIDED_BY,OperatorsEnum::TIMES,OperatorsEnum::TIMES,OperatorsEnum::TIMES,OperatorsEnum::DIVIDED_BY});
+    EXPECT_EQ(toTest.calculate(arg), "17.273080");
 
 }
 
