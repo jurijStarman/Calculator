@@ -1,5 +1,3 @@
-#ifndef LOGHCT_H
-#define LOGHCT_H
 #include <gtest/gtest.h>
 #include "../include/Include.hpp"
 #include "../include/LogicHelperClass.hpp"
@@ -85,7 +83,3 @@ TEST(LogicHelperClass, minusIsOperator)
     EXPECT_EQ(toTest.minusIsOperator("4-5--3", 1, argVec), true);
 
 }
-
-
-
-#endif

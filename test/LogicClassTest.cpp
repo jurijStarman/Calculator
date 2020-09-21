@@ -1,5 +1,3 @@
-#ifndef LOGCT_H
-#define LOGCT_H
 #include <gtest/gtest.h>
 #include "../include/Include.hpp"
 #include "../include/LogicClass.hpp"
@@ -113,6 +111,3 @@ TEST(LogicClass, calculate)
     EXPECT_EQ(toTest.calculate(arg), "17.273080");
 
 }
-
-
-#endif

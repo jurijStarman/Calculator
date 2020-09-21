@@ -32,7 +32,8 @@ set(TEST_SRC
     src/CalculatorHelperClass.cpp
     src/CalculatorClass.cpp
 #    test/LogicHelperClassTest.cpp
-    test/LogicClassTest.cpp
+#    test/LogicClassTest.cpp
+    test/CalculatorHelperTest.cpp
     )
 
 add_executable(testCalc ${TEST_SRC} ${INCLUDES})

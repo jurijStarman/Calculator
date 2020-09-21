@@ -39,6 +39,7 @@ void CalculatorClass::setInput(const std::string input){
 //
 //Rename Location location when the struct name is changed.
 //Should implement a mutex on the vector.
+//vector should be passed by reference.
 ///
 void CalculatorClass::solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct> resultVector)
 {
@@ -61,6 +62,10 @@ void CalculatorClass::solve(std::string input, unsigned int first, unsigned int 
 
 ///
 //TODO
+//
+//set order should be updated when input is changed.
+// problem: key values will be changed -> can just pop elements from map and
+//          call getMaxKey each time as well.
 //
 //add explanation
 //
@@ -97,7 +102,7 @@ void CalculatorClass::compute(){
         }
         
         //4.repeat for other keys until all of them are covered.
-        this->helperFunctClass.replaceSubstrings(resultVector);
+        this->helperFunctClass.replaceSubstrings(resultVector, input);
         currentKey--;
     }
 

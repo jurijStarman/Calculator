@@ -36,6 +36,8 @@ locationMultimapType LogicClass::setOrder(std::string parsedInput){
         }
 
     }
+
+    return leveledExpressions;
 }
 
 ///
