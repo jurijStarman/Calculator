@@ -108,10 +108,9 @@ ExpressionStruct LogicClass::getExpression(const std::string substring, const st
 //  the calculation with the result and removes the operator. This leaves the expression with only + and -
 //  operations which it resolves in the same manner.
 ///
-
 std::string LogicClass::calculate(ExpressionStruct expression)
 {
-    double result;
+    double result = expression.numbers[0];
     double firstNum;
     double secondNum;
     OperatorsEnum op;

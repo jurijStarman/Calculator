@@ -10,7 +10,7 @@ class CalculatorHelperClass
         CalculatorHelperClass() = default;
         ~CalculatorHelperClass() = default;
 
-        std::string replaceSubstrings(std::vector<LocationStruct>& resultVector, std::string& input);
+        std::string replaceSubstrings(std::vector<LocationStruct> resultVector, std::string input);
         unsigned int getMaxKey(locationMultimapType& inputOrder);
 
 };

@@ -35,27 +35,25 @@ void CalculatorClass::setInput(const std::string input){
 ///
 //TODO:
 //
+//should return an element that is pushed back into a vector in the compute func.
 //
-//
-//Rename Location location when the struct name is changed.
-//Should implement a mutex on the vector.
-//vector should be passed by reference.
 ///
-void CalculatorClass::solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct> resultVector)
+void CalculatorClass::solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct>* resultVector)
 {
     std::mutex mtx;
 
     mtx.lock();
-        std::string substring = input.substr(first, second);
+        std::string substring = input.substr(first+1, second-first-1);
     mtx.unlock();
 
     ExpressionStruct expression = this->logicFuncClass.getExpression(substring, this->numbers);
+    
     std::string result = this->logicFuncClass.calculate(expression);
     
     LocationStruct location(first, second, result);
 
     mtx.lock();
-        resultVector.push_back(location);
+        (*resultVector).push_back(location);
     mtx.unlock();
 }
 
@@ -84,8 +82,7 @@ void CalculatorClass::compute(){
     ExpressionStruct expression;
     std::string result;
 
-    while((currentKey > 0) && (!inputOrder.empty())){//keys start with '1'.
-
+    while(!inputOrder.empty()){
         //1.get elements with same key(high to low)
         std::pair<lMMIterType, lMMIterType> sameKeyElem = inputOrder.equal_range(currentKey);
         
@@ -94,26 +91,35 @@ void CalculatorClass::compute(){
             first = iter->second.first;
             second = iter->second.second;
 
-            threadVector.emplace_back(&CalculatorClass::solve, this, input, first, second, resultVector);
+            threadVector.emplace_back(&CalculatorClass::solve, this, input, first, second, &resultVector);
         }
         //3.wait for threads to finish
+        //joinas threade ki so ze joinani -- samo if joinable
         for(auto& elem : threadVector){
-            elem.join();
+            if(elem.joinable()){
+                elem.join();
+            }
         }
         
         //4.repeat for other keys until all of them are covered.
-        this->helperFunctClass.replaceSubstrings(resultVector, input);
-        currentKey--;
+        
+        input = this->helperFunctClass.replaceSubstrings(resultVector, input);
+        resultVector.clear();
+        inputOrder = this->logicFuncClass.setOrder(input);
+        currentKey = this->helperFunctClass.getMaxKey(inputOrder);
     }
 
     
     //5.calculate Expression Without Parenthesis
     expression = this->logicFuncClass.getExpression(input, this->numbers);
-    result = this->logicFuncClass.calculate(expression);
-
+    
+    if(!expression.numbers.empty() && !expression.operators.empty()){
+        result = this->logicFuncClass.calculate(expression);
+    }
+    else{
+        result = input;
+    }
     //6.store the result
     this->result = result;
     
 }
-
-

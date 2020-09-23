@@ -18,7 +18,7 @@ class CalculatorClass
         void compute();
 
     private:
-        void solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct> resultVector);
+        void solve(std::string input, unsigned int first, unsigned int second, std::vector<LocationStruct>* resultVector);
 
         LogicClass logicFuncClass;
         CalculatorHelperClass helperFunctClass;
